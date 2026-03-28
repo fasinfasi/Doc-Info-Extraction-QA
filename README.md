@@ -22,3 +22,13 @@ import fiftyone as fo
 from fiftyone.utils.huggingface import load_from_hub
 
 dataset = load_from_hub("Voxel51/consolidated_receipt_dataset")
+
+## Data Preprocessing
+
+Converted dataset into NER format:
+- Extracted words from OCR
+- Mapped labels to:
+  - TOTAL_AMOUNT
+  - DATE
+  - VENDOR
+  - O (others)
