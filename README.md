@@ -32,3 +32,9 @@ Converted dataset into NER format:
   - DATE
   - VENDOR
   - O (others)
+
+## Data Preparation
+
+- Tokenized text using BERT tokenizer
+- Aligned labels with tokens
+- Converted labels to IDs for training
