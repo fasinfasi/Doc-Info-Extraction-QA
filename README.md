@@ -38,3 +38,23 @@ Converted dataset into NER format:
 - Tokenized text using BERT tokenizer
 - Aligned labels with tokens
 - Converted labels to IDs for training
+
+## Model Training
+
+- Fine-tuned BERT for token classification
+- Labels:
+  - TOTAL_AMOUNT
+  - DATE
+  - VENDOR
+  - O
+
+**To train in local**:
+```bash
+python src/extraction/train.py
+```
+
+NOTE: The NER model was trained using Google Colab to leverage GPU acceleration.
+The final trained model was exported and integrated into the local project environment developed in VS Code. Code placed in `notebooks/training_colab.ipynb`
+
+
+

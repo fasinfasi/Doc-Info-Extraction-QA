@@ -5,3 +5,4 @@ models/
 outputs/
 .env
 .vscode/
+ner-model/
