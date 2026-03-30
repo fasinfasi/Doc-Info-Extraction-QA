@@ -92,6 +92,7 @@ uvicorn src.api.main:app --reload
 
 ### Endpoints
 ```/extract```
+
 Extract structured data from document.
 
 **Request**:
@@ -114,6 +115,7 @@ Extract structured data from document.
 ```
 
 ```/query```
+
 Answer questions based on extracted data
 
 **Request**
