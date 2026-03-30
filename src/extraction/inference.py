@@ -53,7 +53,7 @@ def extract_entities(predictions):
     }
 
     for word, label in predictions:
-        if label == "TOTAL_AMOUNT" and result["total_amount"] is None:
+        if "TOTAL_AMOUNT" in label and result["total_amount"] is None:
             result["total_amount"] = word
         elif label == "DATE" and result["date"] is None:
             result["date"] = word

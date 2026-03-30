@@ -57,3 +57,6 @@ python src/extraction/train.py
 NOTE: The NER model was trained using Google Colab to leverage GPU acceleration. The final trained model was exported and integrated into the local project environment developed in VS Code. Code placed in `notebooks/training_colab.ipynb`
 
 
+Note:
+The current model may predict 'O' labels due to limited dataset size and class imbalance.
+However, the system successfully demonstrates the complete pipeline from training to API deployment.
