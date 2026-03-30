@@ -6,3 +6,4 @@ outputs/
 .env
 .vscode/
 models/
+data/

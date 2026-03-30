@@ -5,7 +5,7 @@ API_URL = "http://127.0.0.1:8000"
 
 st.set_page_config(page_title="Document Info Extraction", layout="wide")
 
-st.title("📄 Document Information Extraction & QA")
+st.title("📄 Document Information Extraction & QA", text_alignment='center')
 
 col1, col2 = st.columns(2)
 

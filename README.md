@@ -126,6 +126,19 @@ Answer questions based on extracted data
 }
 ```
 
+## Data Storage
+Store every extracted data to `data/extracted.json`
+
+Store Data Include:
+```json
+{
+  "timestamp": "...",
+  "input_text": "...",
+  "predictions": [...],
+  "structured_data": {...}
+}
+```
+
 ## User Interface
 Build using Streamlit
 
@@ -157,24 +170,23 @@ This architecture is commonly used for rapid AI application development
 ## Project Structure
 ```
 ├── data
+│   └── extracted.json    # Store Extracted Data
 ├── notebooks
-│   └── training_colab.ipynb
+│   └── training_colab.ipynb    # Model Build
 ├── src
 │   ├── api
-│   │   └── main.py
+│   │   └── main.py   # FastAPI
 │   ├── extraction
 │   │   ├── inference.py
 │   │   ├── prepare_data.py
 │   │   ├── preprocess.py
 │   │   └── train.py
-│   ├── qa
 │   └── utils
 │       └── load_extraction.py
-├── ui
 ├── .gitignore
 ├── LICENSE
 ├── README.md
-├── app.py
+├── app.py      # UI
 └── requirements.txt
 ```
 
