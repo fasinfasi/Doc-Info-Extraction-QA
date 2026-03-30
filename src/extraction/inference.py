@@ -41,7 +41,26 @@ def predict(text, tokenizer, model):
             continue
         label_id = predictions[0][idx].item()
         label = model.config.id2label[label_id]
-        predicted_labels.append((words[word_idx], label))
+
+        predicted_labels = []
+        seen_words = set()
+
+        for idx, word_idx in enumerate(word_ids):
+            if word_idx is None:
+                continue
+
+            word = words[word_idx]
+
+            # Avoid duplicate words
+            if word_idx in seen_words:
+                continue
+
+            seen_words.add(word_idx)
+
+            label_id = predictions[0][idx].item()
+            label = model.config.id2label[label_id]
+
+            predicted_labels.append((word, label))
 
     return predicted_labels
 

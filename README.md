@@ -1,7 +1,7 @@
 # Document Information Extraction & QA System📃
 
 ## Project Overview
-This project extracts structured information from receipt using Named Entity Recognition (NER) and provides a simple Question Answering (QA) interface.
+This project extracts structured information from receipt using Named Entity Recognition(NER) + OCR extraction and provides a simple Question Answering (QA) interface.
 
 The system identifies key entities:
 - Total Amount
@@ -17,9 +17,29 @@ It includes:
 
 ## Setup Instructions
 
+1. Clone the Repository
+```bash
+git clone https://github.com/fasinfasi/Doc-Info-Extraction-QA.git
+cd Doc-Info-Extraction-QA
+```
+
+2. Create Environment
 ```bash
 python -m venv venv
+```
+
+3. Activate Virtual Environment
+- Windows
+```bash
+venv/Scripts/activate
+```
+- Mac/Linux
+```bash
 source venv/Scripts/activate
+```
+
+4. Install Dependencies
+```bash
 pip install -r requirements.txt
 ```
 
@@ -82,6 +102,15 @@ notebooks/training_colab.ipynb
 }
 ```
 
+## OCR Integration
+The system uses OCR to extract text from receipt images before passing it to the NER model.
+
+- Input: Receipt image (PNG/JPG/JPEG)
+- OCR Engine: Tesseract
+- Output: Raw extracted text
+
+This enables real-world usage where users upload receipt images instead of manually entering text.
+
 ## API Development
 Built using FastAPI.
 
@@ -93,13 +122,18 @@ uvicorn src.api.main:app --reload
 ### Endpoints
 ```/extract```
 
-Extract structured data from document.
+Extract structured data from a receipt image.
 
 **Request**:
-```json
-{
-  "text": "KFC 2023-12-05 Total 45.99"
-}
+- Type: `multipart/form-data`
+- Field: `file`
+
+Upload a receipt image file.
+
+**Example (cURL)**:
+```bash
+curl -X POST "http://127.0.0.1:8000/extract" \
+  -F "file=@receipt.jpg"
 ```
 
 **Response**:
@@ -173,6 +207,8 @@ This architecture is commonly used for rapid AI application development
 │   └── extracted.json    # Store Extracted Data
 ├── notebooks
 │   └── training_colab.ipynb    # Model Build
+├── models
+│   └── ner-model       # NER model
 ├── src
 │   ├── api
 │   │   └── main.py   # FastAPI
@@ -181,17 +217,20 @@ This architecture is commonly used for rapid AI application development
 │   │   ├── prepare_data.py
 │   │   ├── preprocess.py
 │   │   └── train.py
-│   └── utils
-│       └── load_extraction.py
+│   ├── utils
+│   │   ├── load_extraction.py
+│   │   └── ocr.py
+│   └── config.py
 ├── .gitignore
 ├── LICENSE
 ├── README.md
 ├── app.py      # UI
 └── requirements.txt
+
 ```
 
 ### Notes
-- The model may predict only 'O' labels due to:
+- The model may predict only 'O'(others) labels due to:
   - Limited dataset size
   - Class imbalance
   - Domain adaptation challenges

@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import UploadFile, File
+from src.utils.ocr import extract_text_from_image
 
 from src.extraction.inference import load_model, predict, extract_entities
 
@@ -39,27 +41,34 @@ def root():
 
 
 @app.post("/extract")
-def extract(request: ExtractRequest):
-    preds = predict(request.text, tokenizer, model)
+async def extract(file: UploadFile = File(...)):
+    # Save uploaded file
+    file_path = f"data/{file.filename}"
+    with open(file_path, "wb") as f:
+        f.write(await file.read())
+
+    # OCR
+    extracted_text = extract_text_from_image(file_path)
+
+    # Model prediction
+    preds = predict(extracted_text, tokenizer, model)
     structured = extract_entities(preds)
 
-    # Store Extracted Data
+    # Save record
     record = {
         "timestamp": datetime.now().isoformat(),
-        "input_text": request.text,
+        "input_text": extracted_text,
         "predictions": preds,
         "structured_data": structured
     }
 
-    try:
-        with open(DATA_PATH, "a", encoding="utf-8") as f:
-            json.dump(record, f)
-            f.write("\n")
-    except Exception as e:
-        print(f"⚠️ Failed to save data: {e}")
+    with open(DATA_PATH, "a", encoding="utf-8") as f:
+        json.dump(record, f)
+        f.write("\n")
 
     return {
         "status": "success",
+        "text": extracted_text,
         "predictions": preds,
         "data": structured
     }
@@ -77,7 +86,6 @@ def query(request: QueryRequest):
     date = structured.get("date")
     vendor = structured.get("vendor")
 
-    # 🧠 Smart answering logic
     if "total" in question:
         if total:
             answer = f"The total amount on the receipt is {total}."
